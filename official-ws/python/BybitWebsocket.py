@@ -147,6 +147,15 @@ class BybitWebsocket:
         if topic_name not in self.data:
             self.data[topic_name] = []
 
+    def subscribe_klineV2(self, interval: str, symbol: str):
+        param = {}
+        param['op'] = 'subscribe'
+        args = 'klineV2.'+interval+'.'+symbol
+        param['args'] = [args]
+        self.ws.send(json.dumps(param))
+        if args not in self.data:
+            self.data[args] = []
+
     def subscribe_trade(self, symbol: str):
         topic_name = 'trade.' + symbol
         param = {'op': 'subscribe', 'args': [topic_name]}
